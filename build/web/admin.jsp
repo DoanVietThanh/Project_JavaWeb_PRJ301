@@ -13,7 +13,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Sidebar Menu for Admin Dashboard | CodingNepal</title>
+        <title>Sidebar Menu</title>
         <link rel="stylesheet" href="css/admin.css" />
         <!-- Fontawesome CDN Link -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
@@ -29,28 +29,7 @@
         </main>
 
         <script>
-            const sidebar = document.querySelector(".sidebar");
-            const sidebarClose = document.querySelector("#sidebar-close");
-            const menu = document.querySelector(".menu-content");
-            const menuItems = document.querySelectorAll(".submenu-item");
-            const subMenuTitles = document.querySelectorAll(".submenu .menu-title");
-            sidebarClose.addEventListener("click", () => sidebar.classList.toggle("close"));
-            menuItems.forEach((item, index) => {
-                item.addEventListener("click", () => {
-                    menu.classList.add("submenu-active");
-                    item.classList.add("show-submenu");
-                    menuItems.forEach((item2, index2) => {
-                        if (index !== index2) {
-                            item2.classList.remove("show-submenu");
-                        }
-                    });
-                });
-            });
-            subMenuTitles.forEach((title) => {
-                title.addEventListener("click", () => {
-                    menu.classList.remove("submenu-active");
-                });
-            });
+            <jsp:include page="./js/admin.js" />
         </script>
     </body>
 </html>

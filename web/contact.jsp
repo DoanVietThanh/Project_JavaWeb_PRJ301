@@ -30,15 +30,15 @@
                         <div class="flex flex-col gap-4">
                             <div>
                                 <label>Your Name</label>
-                                <input type="text" class="border border-2 outline-none p-3 w-full" required="required"/>
+                                <input type="text" placeholder="Enter your name ..." class="border border-2 outline-none p-3 w-full" required="required"/>
                             </div>
                             <div>
                                 <label>Your Email Address</label>
-                                <input type="email" class="border border-2 outline-none p-3 w-full" required="required"/>
+                                <input type="email" placeholder="Enter your email ..." class="border border-2 outline-none p-3 w-full" required="required"/>
                             </div>
                             <div>
                                 <label>Your message</label>
-                                <textarea class="border border-2 outline-none p-3 w-full" required="required"/></textarea>
+                                <textarea placeholder="Enter your message ..." class="border border-2 outline-none p-3 w-full" required="required"/></textarea>
                             </div>
                             <div class="flex justify-end">
                                 <input type="submit" class="px-8 py-2 bg-[#232F3E] text-white cursor-pointer rounded-lg hover:opacity-90"/>

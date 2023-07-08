@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thanhdv.manage;
+package thanhdv.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,15 +20,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import thanhdv.account.AccountDAO;
-import thanhdv.account.AccountDTO;
 import thanhdv.utl.MyAppConstants;
 
 /**
  *
  * @author Oliver Doan
  */
-@WebServlet(name = "ManageUser", urlPatterns = {"/manageUser"})
-public class ManageUser extends HttpServlet {
+@WebServlet(name = "UpdateUserServlet", urlPatterns = {"/updateUser"})
+public class UpdateUserServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,29 +41,31 @@ public class ManageUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        System.out.println("Hello update success");
+        String username = request.getParameter("txtUsername");
+        String password = request.getParameter("txtPassword");
+        String fullname = request.getParameter("txtFullname");
+
+        boolean isAdmin = false;
+        if (request.getParameter("isAdmin").equals("1")) {
+            isAdmin = true;
+        }
         ServletContext context = this.getServletContext();
         Properties siteMaps = (Properties) context.getAttribute("SITE_MAP");
         String url = siteMaps.getProperty(MyAppConstants.ViewPageFeature.INVALID_PAGE);
         try {
             AccountDAO daoAccount = new AccountDAO();
-            String searchUser = request.getParameter("txtSearchUser");
-            if (searchUser == null) {
-                List<AccountDTO> listAccount = daoAccount.getAllAccounts();
-                request.setAttribute("listAccounts", listAccount);
+            boolean result = daoAccount.updateAccount(username, password, fullname, isAdmin);
+            if (result) {
+                url = siteMaps.getProperty(MyAppConstants.Servlet.Manager_User_SERVLET);
             }
-
-            if (searchUser != null) {
-                request.setAttribute("searchUser", searchUser);
-                daoAccount.searchName(searchUser);
-                List<AccountDTO> listAccount = daoAccount.getListAccounts();
-                request.setAttribute("listAccounts", listAccount);
-            }
-        } catch (NamingException ex) {
-            ex.printStackTrace();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log("UpdateAccount SQLException: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            log("UpdateAccount ClassNotFoundException: " + ex.getMessage());
+        } catch (NamingException ex) {
+            log("UpdateAccount NamingException: " + ex.getMessage());
         } finally {
-            url = siteMaps.getProperty(MyAppConstants.ManageFeatures.MANAGE_USER);
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }

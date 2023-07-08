@@ -9,17 +9,15 @@
 <%@include file="./linkTailwind.jsp" %>
 
 <div>
-    <div
-        class="flex place-content-between px-[40px] py-[20px] bg-[#131921] text-white"
-        >
-        <div class="text-[20px]">
+    <div class="flex place-content-between px-[40px] py-[20px] bg-[#131921] text-white h-[100px]">
+        <div class="text-[20px] flex items-center">
             <a href="shop">
                 ThanhDoan Shop
             </a>
         </div>
-        <form action="searchProductForm">
+        <form action="searchProductForm" class="h-full flex items-center">
             <div class="flex flex-auto rounded-lg overflow-hidden mx-[100px]">
-                <div class="bg-white px-2 py-1">
+                <div class="bg-white px-3 py-3">
                     <i class="fa-solid fa-magnifying-glass text-[#000]"></i>
                 </div>
                 <input
@@ -33,12 +31,6 @@
         </form>
         <div class="flex gap-8">
             <div class="flex gap-3 content-center items-center">
-                <a href="dashboard">
-                    DashBoard
-                    <i class="text-[20px] cursor-pointer fa-regular fa-heart"></i>
-                </a>
-            </div>
-            <div class="flex gap-3 content-center items-center">
                 <a href="shoppingCart">
                     Shoping Cart
                     <i class="text-[20px] cursor-pointer fa-solid fa-cart-shopping"></i>
@@ -47,12 +39,11 @@
             <div class="flex gap-3 content-center items-center">
                 <a href="logout">
                     LogOut
-                    <i class="text-[20px] cursor-pointer fa-regular fa-bell"></i>
                 </a>
             </div>
             <div class="flex gap-3 content-center items-center">
                 <c:if test="${not empty sessionScope.USER.fullname}" >
-                    <h1 class="text-[red]">
+                    <h1 class="">
                         Welcome, ${sessionScope.USER.fullname}
                         <i class="text-[20px] fa-regular fa-user"></i>
                     </h1>
@@ -71,13 +62,10 @@
             <div>
                 <a href="adminPage">Control</a>
             </div>
-            <div>
-                <a href="manageUserForm">Manage User</a>
-            </div>
-            <div>
-                <a href="manageProductForm">Manage Product</a>
-            </div>
         </c:if>
+        <div>
+            <a href="shop">Home</a>
+        </div>
         <div>
             <a href="advertisementPage">Advertisement</a>
         </div>

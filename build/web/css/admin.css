@@ -37,7 +37,8 @@ and open the template in the editor.
     height: 100%;
     width: 100%;
     margin-top: 40px;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
+    overflow:hidden;
 }
 .menu-content::-webkit-scrollbar {
     display: none;
@@ -126,6 +127,7 @@ and open the template in the editor.
     height: 100vh;
     z-index: 100;
     background: #F5F5F7;
+    /*filter: invert(1) hue-rotate(80deg);*/
 }
 .main h1 {
     color: #11101d;

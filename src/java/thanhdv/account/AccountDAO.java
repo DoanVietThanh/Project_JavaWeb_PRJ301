@@ -80,7 +80,7 @@ public class AccountDAO implements Serializable {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
-        AccountDTO dto = new AccountDTO();
+        AccountDTO dto = null;
         try {
             // 1. Make connection
             con = DBHelper.makeConnection();
@@ -198,7 +198,7 @@ public class AccountDAO implements Serializable {
         return false;
     }
 
-    public boolean updateAccount(String username, String password, boolean role)
+    public boolean updateAccount(String username, String password, String fullname, boolean role)
             throws SQLException, ClassNotFoundException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -212,14 +212,15 @@ public class AccountDAO implements Serializable {
             if (con != null) {
                 String sql = "Update Account "
                         + "Set password = ?, "
-                        + "isAdmin = ? "
+                        + "isAdmin = ?, "
+                        + "fullname = ? "
                         + "WHERE username = ?";
                 // 3. Create Statement Object
                 stm = con.prepareStatement(sql);
                 stm.setString(1, password);
                 stm.setBoolean(2, role);
-                stm.setString(3, username);
-
+                stm.setString(3, fullname);
+                stm.setString(4, username);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;

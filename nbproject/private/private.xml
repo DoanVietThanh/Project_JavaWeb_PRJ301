@@ -2,17 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/E:/Java/AssignmentPRJ/src/java/thanhdv/account/AccountDAO.java</file>
-            <file>file:/E:/Java/AssignmentPRJ/web/components/header.jsp</file>
-            <file>file:/E:/Java/AssignmentPRJ/src/java/thanhdv/manage/ManageUser.java</file>
-            <file>file:/E:/Java/AssignmentPRJ/web/components/adminSidebar.jsp</file>
-            <file>file:/E:/Java/AssignmentPRJ/web/admin.jsp</file>
-            <file>file:/E:/Java/AssignmentPRJ/web/css/admin.css</file>
-            <file>file:/E:/Java/AssignmentPRJ/src/java/thanhdv/servlet/ShopServlet.java</file>
-            <file>file:/E:/Java/AssignmentPRJ/web/manageUser.jsp</file>
-            <file>file:/E:/Java/AssignmentPRJ/web/WEB-INF/siteMap.properties</file>
-            <file>file:/E:/Java/AssignmentPRJ/src/java/thanhdv/servlet/LoginServlet.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

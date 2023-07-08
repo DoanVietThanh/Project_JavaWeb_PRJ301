@@ -11,9 +11,11 @@ package thanhdv.utl;
  */
 public class MyAppConstants {
     public class ViewPageFeature {
+        public static final String LOGIN_PAGE = "login";
         public static final String SHOP_PAGE = "shopPage";
         public static final String INVALID_PAGE = "invalid";
         public static final String Detail_PRODUCT_PAGE = "detailProductPage";
+        public static final String REGISTER_PAGE = "registerPage";
     }
     
     public class LoginFeatures {
@@ -28,5 +30,11 @@ public class MyAppConstants {
     public class ManageFeatures {
         public static final String MANAGE_USER = "manageUserPage";
         public static final String MANAGE_PRODUCT = "manageProductPage";
+        public static final String ADMIN_CREATE_USER_PAGE = "adminCreateUserPage";
+    }
+    
+    public class Servlet {
+        public static final String Manager_User_SERVLET = "manageUserForm";
+        public static final String SHOP_SERVLET = "shop";
     }
 }

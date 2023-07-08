@@ -15,7 +15,7 @@
                 <a href="#">Dashboard</a>
             </li>
             <li class="item">
-                <a href="#">User</a>
+                <a href="manageUserForm">User</a>
             </li>
             <li class="item">
                 <a href="#">Product</a>
@@ -26,7 +26,8 @@
             <li class="item">
                 <a href="#">Order</a>
             </li>
-            <li class="item">
+
+            <li class="item mt-[160px]">
                 <div class="submenu-item">
                     <span>Setting</span>
                     <i class="fa-solid fa-chevron-right"></i>
@@ -40,10 +41,13 @@
                     <li class="item">
                         <a href="#">Light-Dark Mode</a>
                     </li>
-                    <li class="item">
-                        <a href="#">Logout</a>
-                    </li>
                 </ul>
+            </li>
+            <li class="item">
+                <a href="shop">Back to HomePage</a>
+            </li>
+            <li class="item ">
+                <a href="#">Logout</a>
             </li>
         </ul>
     </div>
@@ -51,7 +55,9 @@
 
 <nav class="navbar">
     <div class="flex justify-between items-center">
-        <i class="fa-solid fa-bars" id="sidebar-close"></i>
+        <div>
+            <i class="fa-solid fa-bars px-4" id="sidebar-close"></i>
+        </div>
         <div>
             <div>Welcome, ${sessionScope.USER.fullname}</div>
         </div>

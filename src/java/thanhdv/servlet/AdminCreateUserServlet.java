@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package thanhdv.servlet;
 
 import java.io.IOException;
@@ -10,8 +11,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -20,73 +19,88 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import thanhdv.account.AccountCreateError;
 import thanhdv.account.AccountDAO;
 import thanhdv.account.AccountDTO;
-import thanhdv.product.ProductDAO;
-import thanhdv.product.ProductDTO;
 import thanhdv.utl.MyAppConstants;
 
 /**
  *
  * @author Oliver Doan
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="AdminCreateUserServlet", urlPatterns={"/adminCreateUser"})
+public class AdminCreateUserServlet extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+       // Get Parameter
         String username = request.getParameter("txtUsername");
+        String fullname = request.getParameter("txtFullname");
         String password = request.getParameter("txtPassword");
-        System.out.println("username " + username);
-        System.out.println("password " + password);
-        // 1. Get context scope
+        String confirmPassword = request.getParameter("txtConfirmPassword");
+
+        // Init url through siteMaps
         ServletContext context = this.getServletContext();
-        // 2. Get siteMap
-        Properties siteMap = (Properties) context.getAttribute("SITE_MAP");
-        // 3. User SITE_MAP to get URL pattern
-        String url = siteMap.getProperty(MyAppConstants.ViewPageFeature.LOGIN_PAGE);
+        Properties siteMaps = (Properties) context.getAttribute("SITE_MAP");
+        String url = siteMaps.getProperty(MyAppConstants.ManageFeatures.ADMIN_CREATE_USER_PAGE);
+
+        boolean isError = false;
+        AccountCreateError errors = new AccountCreateError();
         try {
-            // 1. Call Model - DAO
-            // 1.1 new DAO object
-            AccountDAO daoAccount = new AccountDAO();
-            AccountDTO dtoAccount = daoAccount.checkLogin(username, password);
-            if (dtoAccount != null) {
-                // Init AllProduct and Session after login successfully
-                ProductDAO daoProduct = new ProductDAO();
-                List<ProductDTO> listProduct = daoProduct.getAllProduct();
-                HttpSession session = request.getSession(true); // Tạo chỗ lưu thông tin ng dùng để Welcome
-                session.setAttribute("USER", dtoAccount);
-                request.setAttribute("listProduct", listProduct);
-                url = siteMap.getProperty(MyAppConstants.Servlet.SHOP_SERVLET);
+            // 1. Check isValid Parameter
+            if (username.trim().length() < 6 || username.trim().length() > 20) {
+                isError = true;
+                errors.setUsernameLengthError("Username is required 6-20 chars");
+            }
+            if (fullname.trim().length() < 5 || fullname.trim().length() > 30) {
+                isError = true;
+                errors.setFullnameLengthError("Fullname is required 5-30 chars");
+            }
+            if (password.trim().length() < 8 || password.trim().length() > 30) {
+                isError = true;
+                errors.setPasswordLengthError("Password is required 8-30 chars");
+            }
+            if (!confirmPassword.trim().equals(password.trim())) {
+                isError = true;
+                errors.setConfirmNotMatchError("Confirmed Password must match Password");
+            }
+
+            if (isError) {
+                request.setAttribute("ERROR_SIGNUP", errors);
             } else {
-                request.setAttribute("InvalidInput", "Invalid Username or Password");
+                AccountDAO daoAccount = new AccountDAO();
+                AccountDTO dtoAccount = new AccountDTO(username, password, fullname, false);
+                if (daoAccount.createAccount(dtoAccount)) {
+                    List<AccountDTO> listUser = daoAccount.getAllAccounts();
+                    request.setAttribute("listAccounts", listUser);
+                    url = siteMaps.getProperty(MyAppConstants.ManageFeatures.MANAGE_USER);
+                }
             }
         } catch (SQLException ex) {
-            log("SQLException " + ex.getMessage());
+            log("RegisterServlet_SQL: " + ex.getMessage());
+            if (ex.getMessage().contains("duplicate")) {
+                errors.setUsernameIsExisted(username + " is EXISTED");
+                request.setAttribute("ERROR_SIGNUP", errors);
+            }
         } catch (NamingException ex) {
-            log("NamingException " + ex.getMessage());
+            log("RegisterServlet_Naming: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -94,13 +108,12 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
-    }
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -108,13 +121,12 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

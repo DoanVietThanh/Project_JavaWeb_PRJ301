@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thanhdv.manage;
+package thanhdv.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,8 +28,8 @@ import thanhdv.utl.MyAppConstants;
  *
  * @author Oliver Doan
  */
-@WebServlet(name = "ManageUser", urlPatterns = {"/manageUser"})
-public class ManageUser extends HttpServlet {
+@WebServlet(name = "DeleteUserServlet", urlPatterns = {"/deleteUser"})
+public class DeleteUserServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,29 +43,31 @@ public class ManageUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+        // Get Parameter + Init siteMap
+        String username = request.getParameter("name");
+        String searchValue = request.getParameter("searchValue");
         ServletContext context = this.getServletContext();
-        Properties siteMaps = (Properties) context.getAttribute("SITE_MAP");
-        String url = siteMaps.getProperty(MyAppConstants.ViewPageFeature.INVALID_PAGE);
+        Properties siteMap = (Properties) context.getAttribute("SITE_MAP");
+        String url = siteMap.getProperty(MyAppConstants.ViewPageFeature.INVALID_PAGE);
+        boolean result = false;
         try {
             AccountDAO daoAccount = new AccountDAO();
-            String searchUser = request.getParameter("txtSearchUser");
-            if (searchUser == null) {
-                List<AccountDTO> listAccount = daoAccount.getAllAccounts();
-                request.setAttribute("listAccounts", listAccount);
+            result = daoAccount.deleteAccount(username);
+            daoAccount.searchName(searchValue);
+            List<AccountDTO> listUser = daoAccount.getListAccounts();
+            if (result) {
+                url = siteMap.getProperty(MyAppConstants.ManageFeatures.MANAGE_USER);
             }
 
-            if (searchUser != null) {
-                request.setAttribute("searchUser", searchUser);
-                daoAccount.searchName(searchUser);
-                List<AccountDTO> listAccount = daoAccount.getListAccounts();
-                request.setAttribute("listAccounts", listAccount);
-            }
+            // Set Attribute listAccounts + searchUser in manageUser.jsp
+            request.setAttribute("listAccounts", listUser);
+            request.setAttribute("searchUser", searchValue);
         } catch (NamingException ex) {
-            ex.printStackTrace();
+            log("DeleteUserServlet_NamingException: " + ex.getMessage());
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log("DeleteUserServlet_SQL: " + ex.getMessage());
         } finally {
-            url = siteMaps.getProperty(MyAppConstants.ManageFeatures.MANAGE_USER);
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }
