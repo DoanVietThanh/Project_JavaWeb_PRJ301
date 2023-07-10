@@ -34,7 +34,8 @@
                                 </a>
                                 <h1 class=" text-[20px]">${itemProduct.nameProduct}</h1>
                                 <h1 class="font-medium">Price: ${itemProduct.priceProduct} $</h1>
-                                <form action="">
+                                <form action="addProductToCart">
+                                    <input type="hidden" name="skuProduct" value="${itemProduct.skuProduct}" />
                                     <input type="submit" class="cursor-pointer px-6  py-2 border-4" value="Add to Cart" />
                                 </form>
                             </div>

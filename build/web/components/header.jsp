@@ -34,6 +34,9 @@
                 <a href="shoppingCart">
                     Shoping Cart
                     <i class="text-[20px] cursor-pointer fa-solid fa-cart-shopping"></i>
+                    <c:if test="${not empty sessionScope.CART}">
+                        <span>(${sessionScope.COUNT_CART})</span>
+                    </c:if>
                 </a>
             </div>
             <div class="flex gap-3 content-center items-center">

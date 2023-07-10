@@ -55,7 +55,7 @@
                                     ${itemAccount.username}
                                     <input name="txtUsername" type="hidden" value="${itemAccount.username}"/>
                                 </td>
-                                <td>
+                                <td class="flex justify-center">
                                     <input type="text" name="txtPassword" value="${itemAccount.password}" class="w-[80%] px-4 border borer-2"/>
                                 </td>
                                 <td>
