@@ -54,10 +54,8 @@ public class DetailProductServlet extends HttpServlet {
             ProductDAO daoProduct = new ProductDAO();
             ProductDTO dtoProduct = daoProduct.getProductBySku(skuProduct);
             request.setAttribute("detailProduct", dtoProduct);
-
             // Pass attribute "skuProduct" for review.jsp -> comment
             request.setAttribute("skuProduct", skuProduct);
-
             // Set list of Comment
             CommentDAO daoComment = new CommentDAO();
             List<CommentDTO> listComment = daoComment.getAllCommentsBySku(skuProduct);

@@ -16,6 +16,7 @@ public class MyAppConstants {
         public static final String INVALID_PAGE = "invalid";
         public static final String Detail_PRODUCT_PAGE = "detailProductPage";
         public static final String REGISTER_PAGE = "registerPage";
+        public static final String SHOPPING_CART_PAGE = "shoppingCart";
     }
     
     public class LoginFeatures {

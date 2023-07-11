@@ -14,7 +14,7 @@
     <body>
         <jsp:include page="./components/header.jsp"></jsp:include>
 
-            <div class="flex justify-center gap-4 my-8 ">
+            <div class="flex justify-center gap-4 my-8 h-[50vh]">
                 <div class="h-200px w-[60vw] shadow-lg shadow-indigo-500/40">
                     <div class="mapouter h-[100%]">
                         <div class="gmap_canvas h-[100%]">

@@ -7,13 +7,7 @@ package thanhdv.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,20 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import thanhdv.cart.CartObj;
-import thanhdv.category.CategoryDAO;
-import thanhdv.category.CategoryDTO;
-import thanhdv.comment.CommentDAO;
-import thanhdv.comment.CommentDTO;
-import thanhdv.product.ProductDAO;
-import thanhdv.product.ProductDTO;
 import thanhdv.utl.MyAppConstants;
 
 /**
  *
  * @author Oliver Doan
  */
-@WebServlet(name = "AddProductToCart", urlPatterns = {"/addProductToCart"})
-public class AddProductToCart extends HttpServlet {
+@WebServlet(name = "DeleteAllProductServlet", urlPatterns = {"/deleteAllProduct"})
+public class DeleteAllProductServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,51 +37,15 @@ public class AddProductToCart extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // Init siteMap
         ServletContext context = this.getServletContext();
         Properties siteMap = (Properties) context.getAttribute("SITE_MAP");
-        String url = siteMap.getProperty(MyAppConstants.ViewPageFeature.Detail_PRODUCT_PAGE);
+        String url = siteMap.getProperty(MyAppConstants.ViewPageFeature.SHOPPING_CART_PAGE);
         try {
-            // Set info of Product
-            String quantity = request.getParameter("quantity");
-            String skuProduct = request.getParameter("skuProduct");
-
-            ProductDAO daoProduct = new ProductDAO();
-            ProductDTO dtoProduct = daoProduct.getProductBySku(skuProduct);
-            request.setAttribute("detailProduct", dtoProduct);
-            // Pass attribute "skuProduct" for review.jsp -> comment
-            request.setAttribute("skuProduct", skuProduct);
-            // Set list of Comment
-            CommentDAO daoComment = new CommentDAO();
-            List<CommentDTO> listComment = daoComment.getAllCommentsBySku(skuProduct);
-            request.setAttribute("listComment", listComment);
-
-            // Add Item to session scope
-            if (quantity != null) {
-                // 1. Cus goes to cart's place
-                HttpSession session = request.getSession(true);
-                // 2. Cus takes his cart
-                CartObj cart = (CartObj) session.getAttribute("CART_PRODUCT");
-                if (cart == null) {
-                    cart = new CartObj();
-                }
-                // 3. Cus drops items to his cart
-                cart.addProductToCart(skuProduct, dtoProduct);
-                cart.addItemToCart(skuProduct, Integer.parseInt(quantity));
-
-                session.setAttribute("CART_PRODUCT", cart);
-                // 4. Cus continously goes to shopping
-
-                System.out.println("getItemCart" + cart.getItemCart());
-                System.out.println("getProducts" + cart.getProducts());
-            }
-        } catch (SQLException ex) {
-            log("AddProductToCart_SQL: " + ex.getMessage());
-        } catch (NamingException ex) {
-            log("AddProductToCart_Naming: " + ex.getMessage());
+            HttpSession session = request.getSession(false);
+            CartObj cart = (CartObj) session.getAttribute("CART_PRODUCT");
+            session.removeAttribute("CART_PRODUCT");
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            response.sendRedirect(url);
         }
     }
 
