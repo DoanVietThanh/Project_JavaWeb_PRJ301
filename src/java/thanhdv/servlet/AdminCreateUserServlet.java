@@ -81,7 +81,7 @@ public class AdminCreateUserServlet extends HttpServlet {
                 if (daoAccount.createAccount(dtoAccount)) {
                     List<AccountDTO> listUser = daoAccount.getAllAccounts();
                     request.setAttribute("listAccounts", listUser);
-                    url = siteMaps.getProperty(MyAppConstants.ManageFeatures.MANAGE_USER);
+                    url = siteMaps.getProperty(MyAppConstants.ManageFeatures.MANAGE_USER_PAGE);
                 }
             }
         } catch (SQLException ex) {

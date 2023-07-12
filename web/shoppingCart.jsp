@@ -21,6 +21,7 @@
                         <div class="p-8 pb-0">
                             <div class="text-center font-bold text-[24px]">Shoping Cart</div>
                             <form action="updateQuantityProduct" class="w-full">
+                            <c:if test="${not empty sessionScope.CART_PRODUCT}">
                                 <table border="1" class="w-full">
                                     <thead>
                                         <tr>
@@ -34,8 +35,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <stop offset="0"/>
-                                    <c:if test="${not empty sessionScope.CART_PRODUCT}">
                                         <c:set var="cart" value="${sessionScope.CART_PRODUCT}" />
                                         <c:forEach var="product" items="${sessionScope.CART_PRODUCT.products}" varStatus="counter">
                                             <c:set var="nameItemProduct" value="${product.value.nameProduct}" ></c:set>
@@ -54,7 +53,6 @@
                                                     <form action="updateQuantityProduct"> 
                                                         <input type="hidden" name="skuProduct" value="${product.key}" />
                                                         <input type="number" name="updatedQuantity" value="${quantityItemProduct}" class="w-[80px] text-center py-2 border border-2 outline-none"/>
-                                                        <input type="submit" name="updateQuantity" value="Submit"/>
                                                     </form>
                                                 </td>
                                                 <td class="text-center font-bold">${totalItemProduct}</td>
@@ -69,21 +67,37 @@
                                                 </td>
                                             </tr>
                                         </c:forEach>
-                                    </c:if>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </c:if>
                         </form>
                     </div>
-                    <div class="flex justify-end pr-[70px]">
-                        <div class="mr-8 mb-8">Sum = $ ${cart.totalPriceCheckout}</div>
-                        <a href="deleteAllProduct">Delete All <i class="fa fa-trash-alt"></i></a>
-                    </div>
+                    <c:if test="${not empty sessionScope.CART_PRODUCT}">
+                        <div class="flex justify-end pr-[70px]">
+                            <div class="mr-8 mb-8">Sum = $ ${cart.totalPriceCheckout}</div>
+                            <a href="deleteAllProduct">Delete All <i class="fa fa-trash-alt"></i></a>
+                        </div>
+                    </c:if>
+                    <c:if test="${empty sessionScope.CART_PRODUCT}">
+                        <h1 class="pt-[16%] text-rose-600 text-center text-[30px] select-none">Empty Shopping Cart !!</h1>
+                        <div class="flex justify-center">
+                            <a href="shop" class="py-4 text-center text-blue-500">Click here to go Shop Page</a>
+                        </div>
+                    </c:if>
                 </div>
 
                 <div class="w-[30%] bg-gray-300 h-[70vh]">
                     <div class="p-8 font-bold flex flex-col gap-8">
                         <div class="text-center font-bold text-[24px] ">Summary</div>
-                        <div class="my-4 pt-8 text-center border-t-4 border-black">You have <span class="text-rose-600">${cart.numberItem} item</span> in your cart</div>
+                        <div class="my-2 pt-2 text-center border-t-4 border-black">
+                            You have 
+                            <c:if test="${not empty sessionScope.CART_PRODUCT}">
+                                <span class="text-rose-600">${cart.numberItem} item(s) </span> in your cart
+                            </c:if>
+                            <c:if test="${empty sessionScope.CART_PRODUCT}">
+                                <span class="text-rose-600">0 item </span> in your cart
+                            </c:if>
+                        </div>
                         <div>Price Ship: $5</div>
                         <div>Discount: -10%</div>
                         <c:if test="${cart.numberItem > 0}">
@@ -96,9 +110,11 @@
                         <c:if test="${empty sessionScope.USER}" >
                             <a href="login" class="text-center text-rose-600">Please Login Here to Checkout</a>
                         </c:if>
-                        <form action="#">
-                            <input type="submit" value="CheckOut" class="cursor-pointer hover:opacity-80 text-center w-full p-2 bg-[#232F3E] text-white"/>
-                        </form>
+                        <c:if test="${not empty sessionScope.USER}" >
+                            <form action="#">
+                                <input type="submit" value="CheckOut" class="cursor-pointer hover:opacity-80 text-center w-full p-2 bg-[#232F3E] text-white"/>
+                            </form>
+                        </c:if>
                     </div>
                 </div>
             </div>

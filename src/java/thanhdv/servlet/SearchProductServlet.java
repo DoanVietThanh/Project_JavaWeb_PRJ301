@@ -56,7 +56,7 @@ public class SearchProductServlet extends HttpServlet {
             request.setAttribute("listProduct", listProduct);
             request.setAttribute("searchValue", valueSearch);
         } catch (Exception e) {
-            e.printStackTrace();
+            log("SearchProductServlet_Exception: " + e.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

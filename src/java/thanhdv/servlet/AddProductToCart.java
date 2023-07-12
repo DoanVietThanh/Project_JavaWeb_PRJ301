@@ -86,6 +86,8 @@ public class AddProductToCart extends HttpServlet {
 
                 System.out.println("getItemCart" + cart.getItemCart());
                 System.out.println("getProducts" + cart.getProducts());
+            } else {
+                url = siteMap.getProperty(MyAppConstants.ViewPageFeature.INVALID_PAGE);
             }
         } catch (SQLException ex) {
             log("AddProductToCart_SQL: " + ex.getMessage());

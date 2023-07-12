@@ -18,7 +18,7 @@
                 <a href="manageUserForm">User</a>
             </li>
             <li class="item">
-                <a href="#">Product</a>
+                <a href="manageProductForm">Product</a>
             </li>
             <li class="item">
                 <a href="#">Category</a>
@@ -47,7 +47,7 @@
                 <a href="shop">Back to HomePage</a>
             </li>
             <li class="item ">
-                <a href="#">Logout</a>
+                <a href="logout">Logout</a>
             </li>
         </ul>
     </div>

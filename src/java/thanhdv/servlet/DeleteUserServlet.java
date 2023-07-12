@@ -44,25 +44,27 @@ public class DeleteUserServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        // Get Parameter + Init siteMap
+        // Get Parameter from manageUser.jsp
         String username = request.getParameter("name");
         String searchValue = request.getParameter("searchValue");
+        // Setup siteMap
         ServletContext context = this.getServletContext();
         Properties siteMap = (Properties) context.getAttribute("SITE_MAP");
         String url = siteMap.getProperty(MyAppConstants.ViewPageFeature.INVALID_PAGE);
         boolean result = false;
         try {
+            // Delete Account in Database
             AccountDAO daoAccount = new AccountDAO();
             result = daoAccount.deleteAccount(username);
+            // Set new listUser 
             daoAccount.searchName(searchValue);
             List<AccountDTO> listUser = daoAccount.getListAccounts();
             if (result) {
-                url = siteMap.getProperty(MyAppConstants.ManageFeatures.MANAGE_USER);
+                url = siteMap.getProperty(MyAppConstants.ManageFeatures.MANAGE_USER_PAGE);
+                // Set Attribute listAccounts + searchUser in manageUser.jsp
+                request.setAttribute("listAccounts", listUser);
+                request.setAttribute("searchUser", searchValue);
             }
-
-            // Set Attribute listAccounts + searchUser in manageUser.jsp
-            request.setAttribute("listAccounts", listUser);
-            request.setAttribute("searchUser", searchValue);
         } catch (NamingException ex) {
             log("DeleteUserServlet_NamingException: " + ex.getMessage());
         } catch (SQLException ex) {

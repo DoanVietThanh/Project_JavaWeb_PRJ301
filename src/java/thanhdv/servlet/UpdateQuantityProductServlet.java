@@ -41,12 +41,9 @@ public class UpdateQuantityProductServlet extends HttpServlet {
        ServletContext context = this.getServletContext();
         Properties siteMap = (Properties) context.getAttribute("SITE_MAP");
         String url = siteMap.getProperty(MyAppConstants.ViewPageFeature.SHOPPING_CART_PAGE);
-        System.out.println("hello world");
         try {
             String skuProduct = request.getParameter("skuProduct");
             String updatedQuantity = request.getParameter("updatedQuantity");
-            System.out.println("skuProduct " + skuProduct);
-            System.out.println("updatedQuantity " + updatedQuantity);
             HttpSession session = request.getSession(false);
             CartObj cart = (CartObj) session.getAttribute("CART_PRODUCT");
             cart.updateQuantityProduct(skuProduct, Integer.parseInt(updatedQuantity));

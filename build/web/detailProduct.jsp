@@ -70,6 +70,7 @@
                             <input type="submit" value="Add To Cart" class="cursor-pointer p-4 bg-[#232f3e] text-white mt-[10px] px-10 w-[100%] rounded-lg hover:opacity-90"/>
                         </form>
                     </div>
+                    <a href="shop" class="text-blue-500 flex justify-end"><i class="fa-solid fa-arrow-right pt-1 pr-3"></i>More product</a>
                 </div>
             </div>
         </c:if>

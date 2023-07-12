@@ -57,9 +57,9 @@ public class ShopServlet extends HttpServlet {
             request.setAttribute("listCategory", listCategory);
             request.setAttribute("listProduct", listProduct);
         } catch (NamingException e) {
-            e.printStackTrace();
+            log("ShopServlet_Naming: " + e.getMessage());
         } catch (SQLException e) {
-            e.printStackTrace();
+            log("ShopServlet_SQL: " + e.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

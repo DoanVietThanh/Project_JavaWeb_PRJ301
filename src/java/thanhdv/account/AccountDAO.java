@@ -203,9 +203,6 @@ public class AccountDAO implements Serializable {
         Connection con = null;
         PreparedStatement stm = null;
         // Delete, Update ko can ResultSet vi ko can return
-        System.out.println("username la: " + username);
-        System.out.println("password la: " + password);
-        System.out.println("role la: " + role);
 
         try {
             con = DBHelper.makeConnection();

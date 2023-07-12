@@ -22,9 +22,7 @@
         <jsp:include page="components/adminSidebar.jsp" />
         <main class="main">
             <div class="pt-[80px] px-[20px]">
-                <h1>Admin Dashboard Content</h1>
-                <h1>Admin Dashboard Content</h1>
-                <h1>Admin Dashboard Content</h1>
+                <h2 class="text-rose-600">Updating in the future !!</h2>
             </div>
         </main>
 

@@ -40,9 +40,11 @@
                 </a>
             </div>
             <div class="flex gap-3 content-center items-center">
-                <a href="logout">
-                    LogOut
-                </a>
+                <c:if test="${not empty sessionScope.USER}">
+                    <a href="logout">
+                        LogOut
+                    </a>
+                </c:if>
             </div>
             <div class="flex gap-3 content-center items-center">
                 <c:if test="${not empty sessionScope.USER.fullname}" >

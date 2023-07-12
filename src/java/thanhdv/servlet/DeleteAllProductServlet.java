@@ -42,7 +42,6 @@ public class DeleteAllProductServlet extends HttpServlet {
         String url = siteMap.getProperty(MyAppConstants.ViewPageFeature.SHOPPING_CART_PAGE);
         try {
             HttpSession session = request.getSession(false);
-            CartObj cart = (CartObj) session.getAttribute("CART_PRODUCT");
             session.removeAttribute("CART_PRODUCT");
         } finally {
             response.sendRedirect(url);

@@ -60,12 +60,12 @@ public class ManageUser extends HttpServlet {
                 List<AccountDTO> listAccount = daoAccount.getListAccounts();
                 request.setAttribute("listAccounts", listAccount);
             }
+            url = siteMaps.getProperty(MyAppConstants.ManageFeatures.MANAGE_USER_PAGE);
         } catch (NamingException ex) {
             ex.printStackTrace();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            url = siteMaps.getProperty(MyAppConstants.ManageFeatures.MANAGE_USER);
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }

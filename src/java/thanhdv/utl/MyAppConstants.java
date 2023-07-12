@@ -29,13 +29,15 @@ public class MyAppConstants {
     }
     
     public class ManageFeatures {
-        public static final String MANAGE_USER = "manageUserPage";
-        public static final String MANAGE_PRODUCT = "manageProductPage";
+        public static final String MANAGE_USER_PAGE = "manageUserPage";
+        public static final String MANAGE_PRODUCT_PAGE = "manageProductPage";
         public static final String ADMIN_CREATE_USER_PAGE = "adminCreateUserPage";
+        public static final String ADMIN_CREATE_PRODUCT_PAGE = "adminCreateProductPage";
     }
     
     public class Servlet {
         public static final String Manager_User_SERVLET = "manageUserForm";
+        public static final String Manager_Product_SERVLET = "manageProductForm";
         public static final String SHOP_SERVLET = "shop";
     }
 }

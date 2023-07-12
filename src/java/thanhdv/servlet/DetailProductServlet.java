@@ -61,9 +61,9 @@ public class DetailProductServlet extends HttpServlet {
             List<CommentDTO> listComment = daoComment.getAllCommentsBySku(skuProduct);
             request.setAttribute("listComment", listComment);
         } catch (SQLException ex) {
-            Logger.getLogger(DetailProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+            log("DetailProductServlet_SQL: " + ex.getMessage());
         } catch (NamingException ex) {
-            Logger.getLogger(DetailProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+            log("DetailProductServlet_Naming: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

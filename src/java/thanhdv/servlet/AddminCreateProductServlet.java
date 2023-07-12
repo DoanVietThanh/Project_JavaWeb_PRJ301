@@ -8,7 +8,6 @@ package thanhdv.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,21 +19,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import thanhdv.account.AccountDTO;
-import thanhdv.comment.CommentDAO;
-import thanhdv.comment.CommentDTO;
 import thanhdv.product.ProductDAO;
 import thanhdv.product.ProductDTO;
-import thanhdv.utl.DateFormat;
 import thanhdv.utl.MyAppConstants;
 
 /**
  *
  * @author Oliver Doan
  */
-@WebServlet(name = "CommentProduct", urlPatterns = {"/commentDetailProduct"})
-public class CommentProduct extends HttpServlet {
+@WebServlet(name = "AddminCreateProductServlet", urlPatterns = {"/adminCreateProduct"})
+public class AddminCreateProductServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,35 +42,34 @@ public class CommentProduct extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // Init siteMap
-        HttpSession session = request.getSession(false);
+        // Set siteMAp
         ServletContext context = this.getServletContext();
         Properties siteMap = (Properties) context.getAttribute("SITE_MAP");
-        String url = siteMap.getProperty(MyAppConstants.ViewPageFeature.Detail_PRODUCT_PAGE);
-        // Init DAO and DTO
-        CommentDAO daoComment = new CommentDAO();
-        AccountDTO dtoAccount = (AccountDTO) session.getAttribute("USER");
-        ProductDAO daoProduct = new ProductDAO();
+        String url = siteMap.getProperty(MyAppConstants.ManageFeatures.MANAGE_PRODUCT_PAGE);
         // Get Parameter
-        String textComment = request.getParameter("textComment");
-        String skuProduct = request.getParameter("skuProduct");
+        String sku = request.getParameter("sku");
+        String name = request.getParameter("name");
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        int status = Integer.parseInt(request.getParameter("status"));
+        int stars = Integer.parseInt(request.getParameter("stars"));
+        int categoryID = Integer.parseInt(request.getParameter("categoryID"));
+        float price = Float.parseFloat(request.getParameter("price"));
+        String description = request.getParameter("description");
+        String image = request.getParameter("image");
         try {
-            if (dtoAccount != null) {
-                DateFormat day = new DateFormat();
-                String date = day.nowDate();
-                String username = dtoAccount.getUsername();
-                daoComment.createComment(username, date, textComment, skuProduct);
+            ProductDAO daoProduct = new ProductDAO();
+            if (daoProduct.getProductBySku(sku) != null) {
+                url = siteMap.getProperty(MyAppConstants.ManageFeatures.ADMIN_CREATE_PRODUCT_PAGE);
+                request.setAttribute("existed_SKU", "Existed SKU Product");
+            } else {
+                ProductDTO dtoProduct = new ProductDTO(sku, name, quantity, status, stars, categoryID, price, description, image);
+                daoProduct.createProduct(dtoProduct);
             }
-            // Set attribute of listComment + detailProduct + skuProduct (hidden input) again for detailProduct.jsp and review.jsp
-            List<CommentDTO> listComment = daoComment.getAllCommentsBySku(skuProduct);
-            request.setAttribute("listComment", listComment);
-            ProductDTO dtoProduct = daoProduct.getProductBySku(skuProduct);
-            request.setAttribute("detailProduct", dtoProduct);
-            request.setAttribute("skuProduct", skuProduct);
+            request.setAttribute("listProducts", daoProduct.getAllProduct());
         } catch (SQLException ex) {
-            log("CommentProduct_SQLException: " + ex.getMessage());
+            log("AddminCreateProductServlet_SQL: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("CommentProduct_NamingException: " + ex.getMessage());
+            log("AddminCreateProductServlet_Naming: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
