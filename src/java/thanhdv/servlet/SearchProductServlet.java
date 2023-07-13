@@ -49,6 +49,9 @@ public class SearchProductServlet extends HttpServlet {
             String valueSearch = request.getParameter("txtSearchProduct");
             ProductDAO daoProduct = new ProductDAO();
             daoProduct.searchProduct(valueSearch);
+            if (daoProduct.getListProduct() == null) {
+                request.setAttribute("messNotFound", "Not Found Product !!");
+            }
             List<ProductDTO> listProduct = daoProduct.getListProduct();
             CategoryDAO daoCategory = new CategoryDAO();
             List<CategoryDTO> listCategory = daoCategory.getAllCategory();

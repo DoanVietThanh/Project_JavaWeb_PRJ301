@@ -15,7 +15,7 @@
                 ThanhDoan Shop
             </a>
         </div>
-        <form action="searchProductForm" class="h-full flex items-center">
+        <form action="searchProduct" class="h-full flex items-center">
             <div class="flex flex-auto rounded-lg overflow-hidden mx-[100px]">
                 <div class="bg-white px-3 py-3">
                     <i class="fa-solid fa-magnifying-glass text-[#000]"></i>

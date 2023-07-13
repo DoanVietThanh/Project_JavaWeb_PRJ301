@@ -37,6 +37,9 @@
                         </div>
                     </c:forEach>       
                 </c:if>
+                <c:if test="${empty requestScope.listProduct}">
+                    <div class="text-center w-full h-full text-rose-600 font-bold text-[30px] pt-8">${requestScope.messNotFound}</div>
+                </c:if>
             </div>
         </div>
         <jsp:include page="./components/footer.jsp"></jsp:include>

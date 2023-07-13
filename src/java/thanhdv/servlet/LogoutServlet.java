@@ -45,7 +45,8 @@ public class LogoutServlet extends HttpServlet {
             HttpSession session = request.getSession(false); // false: nếu ko có return null, true: nếu ko có thì tạo mới
             AccountDTO dtoAccount = (AccountDTO) session.getAttribute("USER");
             if (dtoAccount != null) {
-                session.removeAttribute("USER");
+//                session.removeAttribute("USER");
+                session.invalidate();
             }
         } finally {
             response.sendRedirect(url);
